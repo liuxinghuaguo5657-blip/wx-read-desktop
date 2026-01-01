@@ -1,0 +1,524 @@
+=== wx-read-desktop debug log ===
+Started: 2026-01-01T14:00:11.161Z
+
+[2026-01-01T14:00:16.767Z] onReady called, document.readyState: interactive
+[2026-01-01T14:00:16.768Z] URL: https://weread.qq.com/
+[2026-01-01T14:00:16.769Z] setInkMode: true
+[2026-01-01T14:00:16.770Z] Keydown listener registered (capture phase)
+[2026-01-01T14:00:20.226Z] Delayed page structure check:
+[2026-01-01T14:00:20.227Z]   - Highlights: 0
+[2026-01-01T14:00:20.228Z]   - All classes with "review": []
+[2026-01-01T14:00:24.274Z] onReady called, document.readyState: interactive
+[2026-01-01T14:00:24.276Z] URL: https://weread.qq.com/web/reader/ce032b305a9bc1ce0b0dd2a
+[2026-01-01T14:00:24.277Z] setInkMode: true
+[2026-01-01T14:00:24.277Z] Keydown listener registered (capture phase)
+[2026-01-01T14:00:27.599Z] Delayed page structure check:
+[2026-01-01T14:00:27.600Z]   - Highlights: 0
+[2026-01-01T14:00:27.638Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:27.665Z] isMainPanelOpen: false
+[2026-01-01T14:00:27.929Z] handleKeydown (capture): KeyD
+[2026-01-01T14:00:27.929Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:27.932Z] isMainPanelOpen: false
+[2026-01-01T14:00:27.933Z]   -> setCompactMode(!state.compactEnabled)
+[2026-01-01T14:00:27.934Z] setCompactMode: true p: 5
+[2026-01-01T14:00:28.262Z] Triggering window resize for layout update... 10
+[2026-01-01T14:00:28.549Z] Triggering window resize for layout update... 100
+[2026-01-01T14:00:28.558Z] Triggering window resize for layout update... 300
+[2026-01-01T14:00:33.469Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:33.482Z] isMainPanelOpen: false
+[2026-01-01T14:00:33.730Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:33.733Z] isMainPanelOpen: false
+[2026-01-01T14:00:35.002Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:35.007Z] isMainPanelOpen: false
+[2026-01-01T14:00:36.596Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:36.602Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:36.607Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:36.608Z] getCommentItems: starting search
+[2026-01-01T14:00:36.610Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:36.610Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:36.612Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:36.612Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:36.614Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:36.614Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:36.616Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:36.616Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:37.144Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:37.148Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:37.150Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:37.150Z] getCommentItems: starting search
+[2026-01-01T14:00:37.153Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:37.154Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:37.157Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:37.158Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:37.158Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:37.160Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:37.160Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:37.161Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:37.801Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:37.804Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:37.804Z] clickSelectedComment: simulating click on reader_float_reviews_panel_item_content
+[2026-01-01T14:00:37.814Z] clickSelectedComment: events dispatched
+[2026-01-01T14:00:39.382Z] handleKeydown (capture): Escape
+[2026-01-01T14:00:39.383Z] isDetailPanelOpen: true {
+  "_prevClass": "comment_detail_float_panel_reviewDetail reader_float_panel_reviewDetail_sub_comment_detail"
+}
+[2026-01-01T14:00:39.383Z] isMainPanelOpen: found with .reader_float_panel_reviewDetail {
+  "_prevClass": "reader_float_panel_reviewDetail",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:39.386Z]   -> handleEscape start
+[2026-01-01T14:00:39.388Z]     Handling ESC in Detail Panel
+[2026-01-01T14:00:39.391Z]     Total back buttons found: 6
+[2026-01-01T14:00:39.391Z]     BackBtn[0] left:415.671875 top:57
+[2026-01-01T14:00:39.392Z]     BackBtn[1] left:855.671875 top:57
+[2026-01-01T14:00:39.393Z]     BackBtn[2] left:0 top:0
+[2026-01-01T14:00:39.393Z]     BackBtn[3] left:0 top:0
+[2026-01-01T14:00:39.394Z]     BackBtn[4] left:0 top:0
+[2026-01-01T14:00:39.394Z]     BackBtn[5] left:0 top:0
+[2026-01-01T14:00:39.394Z]     Selected leftmost visible Back Button: {"left":415.671875,"top":57}
+[2026-01-01T14:00:39.395Z]     nativeClick at: 430 71
+[2026-01-01T14:00:39.928Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:39.942Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:40.123Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:40.126Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:40.128Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:40.129Z] getCommentItems: starting search
+[2026-01-01T14:00:40.131Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:40.131Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:40.135Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:40.138Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:40.140Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:40.141Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:40.142Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:40.143Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:41.225Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:41.243Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:41.250Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:41.250Z] getCommentItems: starting search
+[2026-01-01T14:00:41.259Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:41.263Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:41.263Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:41.267Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:41.268Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:41.268Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:41.271Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:41.272Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:41.713Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:41.716Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:41.722Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:41.725Z] getCommentItems: starting search
+[2026-01-01T14:00:41.727Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:41.728Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:41.729Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:41.729Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:41.731Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:41.732Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:41.734Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:41.735Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:42.650Z] handleKeydown (capture): Escape
+[2026-01-01T14:00:42.651Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:42.654Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:42.654Z]   -> handleEscape start
+[2026-01-01T14:00:42.655Z]     Closing Main Panel (List)
+[2026-01-01T14:00:42.674Z]     Found Main Panel: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:42.675Z]     Main Close Button found: true
+[2026-01-01T14:00:42.684Z]     simulateClick executed on: reader_float_panel_header_closeBtn
+[2026-01-01T14:00:43.492Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:43.503Z] isMainPanelOpen: false
+[2026-01-01T14:00:43.716Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:43.719Z] isMainPanelOpen: false
+[2026-01-01T14:00:44.465Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:44.469Z] isMainPanelOpen: false
+[2026-01-01T14:00:45.653Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:45.660Z] isMainPanelOpen: false
+[2026-01-01T14:00:46.197Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:46.200Z] isMainPanelOpen: false
+[2026-01-01T14:00:46.668Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:46.674Z] isMainPanelOpen: false
+[2026-01-01T14:00:47.295Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:47.299Z] isMainPanelOpen: false
+[2026-01-01T14:00:48.501Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:48.504Z] isMainPanelOpen: false
+[2026-01-01T14:00:50.499Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:50.501Z] isMainPanelOpen: false
+[2026-01-01T14:00:51.572Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:51.580Z] isMainPanelOpen: false
+[2026-01-01T14:00:52.164Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:52.167Z] isMainPanelOpen: false
+[2026-01-01T14:00:52.370Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:52.378Z] isMainPanelOpen: false
+[2026-01-01T14:00:54.115Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:54.120Z] isMainPanelOpen: false
+[2026-01-01T14:00:55.532Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:55.542Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:55.545Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:55.546Z] getCommentItems: starting search
+[2026-01-01T14:00:55.548Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:55.549Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:55.550Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:55.551Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:55.552Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:55.553Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:55.557Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:55.557Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:56.013Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:56.020Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:56.030Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:56.030Z] getCommentItems: starting search
+[2026-01-01T14:00:56.033Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:56.033Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:56.034Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:56.034Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:56.035Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:56.035Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:56.036Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:56.036Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:57.129Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:57.134Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:57.137Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:57.138Z] getCommentItems: starting search
+[2026-01-01T14:00:57.142Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:57.142Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:57.143Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:57.144Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:57.145Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:57.146Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:57.148Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:57.148Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:58.004Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:58.014Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:58.016Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:58.017Z] getCommentItems: starting search
+[2026-01-01T14:00:58.019Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:58.019Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:58.020Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:58.021Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:58.024Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:58.024Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:58.026Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:58.026Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:58.429Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:58.437Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:58.442Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:58.442Z] getCommentItems: starting search
+[2026-01-01T14:00:58.445Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:58.445Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:58.446Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:58.447Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:58.448Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:58.449Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:58.451Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:58.451Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:58.733Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:58.736Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:58.741Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:58.742Z] getCommentItems: starting search
+[2026-01-01T14:00:58.744Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:58.744Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:58.745Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:58.746Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:58.746Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:58.747Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:58.749Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:58.749Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:59.353Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:59.360Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:59.363Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:59.364Z] getCommentItems: starting search
+[2026-01-01T14:00:59.366Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:59.367Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:59.368Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:59.369Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:59.370Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:59.371Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:59.374Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:59.375Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:00:59.817Z] isDetailPanelOpen: false null
+[2026-01-01T14:00:59.824Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:59.828Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:00:59.828Z] getCommentItems: starting search
+[2026-01-01T14:00:59.831Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:00:59.831Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:00:59.832Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:00:59.832Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:00:59.834Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:00:59.834Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:00:59.837Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:00:59.837Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:01:00.811Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:00.813Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:00.813Z] clickSelectedComment: simulating click on reader_float_reviews_panel_item_content
+[2026-01-01T14:01:00.816Z] clickSelectedComment: events dispatched
+[2026-01-01T14:01:03.498Z] handleKeydown (capture): Escape
+[2026-01-01T14:01:03.499Z] isDetailPanelOpen: true {
+  "_prevClass": "comment_detail_float_panel_reviewDetail reader_float_panel_reviewDetail_sub_comment_detail"
+}
+[2026-01-01T14:01:03.500Z] isMainPanelOpen: found with .reader_float_panel_reviewDetail {
+  "_prevClass": "reader_float_panel_reviewDetail",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:03.500Z]   -> handleEscape start
+[2026-01-01T14:01:03.502Z]     Handling ESC in Detail Panel
+[2026-01-01T14:01:03.502Z]     Total back buttons found: 6
+[2026-01-01T14:01:03.502Z]     BackBtn[0] left:628 top:42
+[2026-01-01T14:01:03.503Z]     BackBtn[1] left:1068 top:42
+[2026-01-01T14:01:03.503Z]     BackBtn[2] left:0 top:0
+[2026-01-01T14:01:03.504Z]     BackBtn[3] left:0 top:0
+[2026-01-01T14:01:03.507Z]     BackBtn[4] left:0 top:0
+[2026-01-01T14:01:03.507Z]     BackBtn[5] left:0 top:0
+[2026-01-01T14:01:03.508Z]     Selected leftmost visible Back Button: {"left":628,"top":42}
+[2026-01-01T14:01:03.509Z]     nativeClick at: 642 56
+[2026-01-01T14:01:04.196Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:04.203Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:04.429Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:04.431Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:04.434Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:04.434Z] getCommentItems: starting search
+[2026-01-01T14:01:04.436Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:01:04.436Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:01:04.438Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:01:04.440Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:01:04.441Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:01:04.442Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:01:04.443Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:01:04.443Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:01:05.201Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:05.209Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:05.212Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:05.213Z] getCommentItems: starting search
+[2026-01-01T14:01:05.215Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:01:05.215Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:01:05.216Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:01:05.216Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:01:05.217Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:01:05.217Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:01:05.218Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:01:05.218Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:01:06.178Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:06.180Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:06.185Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:06.185Z] getCommentItems: starting search
+[2026-01-01T14:01:06.187Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:01:06.187Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:01:06.192Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:01:06.193Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:01:06.194Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:01:06.194Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:01:06.195Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:01:06.195Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:01:06.918Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:06.921Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:06.926Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:06.927Z] getCommentItems: starting search
+[2026-01-01T14:01:06.929Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:01:06.929Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:01:06.931Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:01:06.931Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:01:06.931Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:01:06.932Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:01:06.933Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:01:06.933Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:01:07.492Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:07.497Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:07.500Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:07.500Z] getCommentItems: starting search
+[2026-01-01T14:01:07.503Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:01:07.503Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:01:07.504Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:01:07.506Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:01:07.507Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:01:07.508Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:01:07.509Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:01:07.510Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:01:08.032Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:08.038Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:08.043Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:08.044Z] getCommentItems: starting search
+[2026-01-01T14:01:08.047Z]   Panel found with [class*="float_panel"][class*="review"] className: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:01:08.047Z]   Relevant classes in panel: review_section_toolbar_wrapper, reviews_panel_toolbar, review_section_toolbar_items_wrapper, review_section_toolbar_item, review_section_toolbar_item_copy, review_section_toolbar_item_icon, review_section_toolbar_item_text, review_section_toolbar_item_underline, review_section_toolbar_item_review, review_section_toolbar_item_ai_chat, reader_floatReviewsPanel_list_wrapper, reader_float_reviews_panel_item, reader_floatReviewsPanel_list_item, reader_float_reviews_panel_item_top_container, reader_float_reviews_panel_item_header, reader_float_reviews_panel_item_header_avatar, reader_float_reviews_panel_item_header_name, reader_float_reviews_panel_item_content, reader_float_reviews_panel_item_content_divider, reader_float_reviews_panel_item_bottom_container, reader_float_reviews_panel_item_bottom_item, reader_float_reviews_panel_item_bottom_item_count, reader_float_reviews_panel_item_bottom_item_like_count, reader_float_reviews_panel_item_bottom_item_comment_count
+[2026-01-01T14:01:08.048Z]     Trying [class*="comment_list_item"] - found: 0
+[2026-01-01T14:01:08.049Z]     Trying [class*="commentListItem"] - found: 0
+[2026-01-01T14:01:08.049Z]     Trying [class*="review_item"] - found: 0
+[2026-01-01T14:01:08.051Z]     Trying [class*="reviewItem"] - found: 0
+[2026-01-01T14:01:08.052Z]     Trying [class*="list_item"]:not([class*="sub_item"]) - found: 30
+[2026-01-01T14:01:08.052Z]   SUCCESS: Found 30 items with [class*="list_item"]:not([class*="sub_item"])
+[2026-01-01T14:01:09.128Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:09.132Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:09.132Z] clickSelectedComment: simulating click on reader_float_reviews_panel_item_content
+[2026-01-01T14:01:09.134Z] clickSelectedComment: events dispatched
+[2026-01-01T14:01:10.846Z] handleKeydown (capture): Escape
+[2026-01-01T14:01:10.847Z] isDetailPanelOpen: true {
+  "_prevClass": "comment_detail_float_panel_reviewDetail reader_float_panel_reviewDetail_sub_comment_detail"
+}
+[2026-01-01T14:01:10.848Z] isMainPanelOpen: found with .reader_float_panel_reviewDetail {
+  "_prevClass": "reader_float_panel_reviewDetail",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:10.849Z]   -> handleEscape start
+[2026-01-01T14:01:10.849Z]     Handling ESC in Detail Panel
+[2026-01-01T14:01:10.850Z]     Total back buttons found: 6
+[2026-01-01T14:01:10.850Z]     BackBtn[0] left:628 top:42
+[2026-01-01T14:01:10.851Z]     BackBtn[1] left:1068 top:42
+[2026-01-01T14:01:10.852Z]     BackBtn[2] left:0 top:0
+[2026-01-01T14:01:10.852Z]     BackBtn[3] left:0 top:0
+[2026-01-01T14:01:10.852Z]     BackBtn[4] left:0 top:0
+[2026-01-01T14:01:10.853Z]     BackBtn[5] left:0 top:0
+[2026-01-01T14:01:10.853Z]     Selected leftmost visible Back Button: {"left":628,"top":42}
+[2026-01-01T14:01:10.853Z]     nativeClick at: 642 56
+[2026-01-01T14:01:11.354Z] handleKeydown (capture): Escape
+[2026-01-01T14:01:11.358Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:11.366Z] isMainPanelOpen: found with [class*="float_panel"][class*="review"] {
+  "_prevClass": "reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border",
+  "__vOriginalDisplay": ""
+}
+[2026-01-01T14:01:11.366Z]   -> handleEscape start
+[2026-01-01T14:01:11.367Z]     Closing Main Panel (List)
+[2026-01-01T14:01:11.368Z]     Found Main Panel: reviews_panel reader_float_panel_container reader_floatReviewsPanel_content reader_float_panel_container_overflowed reader_float_panel_container_scrolled reader_float_panel_container_with_dynamic_header_border
+[2026-01-01T14:01:11.369Z]     Main Close Button found: true
+[2026-01-01T14:01:11.376Z]     simulateClick executed on: reader_float_panel_header_closeBtn
+[2026-01-01T14:01:12.312Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:12.321Z] isMainPanelOpen: false
+[2026-01-01T14:01:12.789Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:12.797Z] isMainPanelOpen: false
+[2026-01-01T14:01:13.169Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:13.181Z] isMainPanelOpen: false
+[2026-01-01T14:01:13.529Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:13.533Z] isMainPanelOpen: false
+[2026-01-01T14:01:14.182Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:14.187Z] isMainPanelOpen: false
+[2026-01-01T14:01:30.664Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:30.668Z] isMainPanelOpen: false
+[2026-01-01T14:01:30.895Z] isDetailPanelOpen: false null
+[2026-01-01T14:01:30.898Z] isMainPanelOpen: false

@@ -1,7 +1,32 @@
 import * as dotenv from 'dotenv';
-import { app, BrowserWindow, BrowserView } from 'electron';
+import * as path from 'path';
+import * as fs from 'fs';
+import { app, BrowserWindow, BrowserView, clipboard, ipcMain } from 'electron';
 
 dotenv.config();
+
+const logFilePath = path.join(__dirname, '..', 'debug.log');
+
+// 清空日志文件
+fs.writeFileSync(logFilePath, `=== wx-read-desktop debug log ===\nStarted: ${new Date().toISOString()}\n\n`);
+
+ipcMain.handle('wxrd-log', (_event, message: string) => {
+  const timestamp = new Date().toISOString();
+  const logLine = `[${timestamp}] ${message}\n`;
+  fs.appendFileSync(logFilePath, logLine);
+});
+
+ipcMain.handle('wxrd-copy', (_event, text: string) => {
+  clipboard.writeText(typeof text === 'string' ? text : '');
+});
+
+// 原生点击事件 - 绕过 Vue 的 isTrusted 检查
+ipcMain.handle('wxrd-native-click', (event, x: number, y: number) => {
+  const webContents = event.sender;
+  // 发送原生鼠标事件序列
+  webContents.sendInputEvent({ type: 'mouseDown', x, y, button: 'left', clickCount: 1 });
+  webContents.sendInputEvent({ type: 'mouseUp', x, y, button: 'left', clickCount: 1 });
+});
 
 const createWindow = () => {
   // Create the browser window.
@@ -15,6 +40,8 @@ const createWindow = () => {
 
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 

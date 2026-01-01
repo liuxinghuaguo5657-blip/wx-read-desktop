@@ -1,33 +1,84 @@
-<div align=center>
-  <h1>微信读书桌面版</h1>
-  <p>一个极简版微信读书桌面客户端，基于electron.js</p>
-  <img src="https://img.shields.io/badge/electron-22.3.27-blue"/>
-  <img src="https://img.shields.io/badge/typescript-3.9.10-blueviolet"/>
-  <img src="https://img.shields.io/badge/downloaded-9787-brightgreen"/>
-</div>
+# 微信读书桌面客户端
 
-![screenshot](./asset/app.png)
+基于 Electron 的微信读书桌面客户端，支持完整的键盘快捷键操作。
 
-**中文** | [English](./README.en.md)
+## 功能特性
 
-微信读书桌面版是一个基于 electron.js 的极简微信读书桌面客户端。它仅仅提供一个微信网页版的包装，与微信网页版功能全无二致，方便在多个浏览器页面开启时快速切换到微信读书。
+### 键盘快捷键
 
-## 安装
+| 快捷键 | 功能 |
+|--------|------|
+| `Alt+↑/↓` | 切换选中划线、评论或回复 |
+| `Alt+Enter` | 点击选中项（打开评论面板/进入详情） |
+| `Alt+C` | 复制划线原文 |
+| `Alt+X` | 复制评论或回复内容 |
+| `Alt+Z` | 评论面板翻页 |
+| `Alt+E` | 切换墨水屏模式 |
 
-安装包可以在[Release 页面](https://github.com/estepona/wx-read-desktop/releases)找到，目前支持 Mac 以及 Windows 平台。
+### 智能上下文识别
 
-## 感谢
+- 无面板时：`Alt+↑/↓` 切换页面划线
+- 评论面板：`Alt+↑/↓` 切换评论条目
+- 评论详情：`Alt+↑/↓` 切换回复条目
 
-感谢微信读书团队做出这么优秀的一款读书产品，作为一名读者，我十分享受在手机端、kindle 端、以及普通网页端其使用体验。作为一名开发者，我的初衷是希望更多读者能有机会在电脑客户端中使用它，它的网页端对我而言已经很优秀了，我需要做的仅仅是用 electron 把它包装起来。
+## 核心代码结构
 
-## 作者
+### main.ts - 主进程
 
-[张秉寰](https://github.com/estepona) - esteponawondering@gmail.com
+```typescript
+// 禁用 contextIsolation 允许 preload 访问 DOM
+webPreferences: {
+  contextIsolation: false,
+  preload: path.join(__dirname, 'preload.js'),
+}
 
-## Star History
+// IPC 通道：日志和复制
+ipcMain.handle('wxrd-log', (_, ...args) => { /* 写入 debug.log */ })
+ipcMain.handle('wxrd-copy', (_, text) => { clipboard.writeText(text) })
+```
 
-[![Star History Chart](https://api.star-history.com/svg?repos=estepona/wx-read-desktop&type=Date)](https://www.star-history.com/#estepona/wx-read-desktop&Date)
+### preload.ts - 快捷键核心逻辑
 
-## LICENSE
+```typescript
+// 键盘事件监听
+document.addEventListener('keydown', (e) => {
+  if (e.altKey) handleKeydown(e)
+})
+
+// 面板状态检测
+function isMainPanelOpen()    // 评论列表面板
+function isDetailPanelOpen()  // 评论详情面板
+
+// 选择器
+const 评论面板 = '[class*="float_panel"][class*="review"]'
+const 评论项 = '[class*="list_item"]:not([class*="sub_item"])'
+const 回复面板 = '.reader_float_panel_reviewDetail'
+const 回复项 = '.reader_float_panel_reviewDetail_comment_list_item'
+
+// 核心功能
+function selectHighlight(delta)  // 切换划线
+function selectComment(delta)    // 切换评论
+function selectReply(delta)      // 切换回复
+function extractContentText()    // 提取评论内容
+function scrollPanelOnePage()    // 面板翻页
+```
+
+## 安装与运行
+
+```bash
+npm install
+npm run start
+```
+
+## 调试
+
+日志文件 `debug.log` 记录键盘事件和面板状态。
+
+## 技术栈
+
+- Electron + TypeScript
+- 微信读书 Web 版
+
+## 许可
 
 MIT

@@ -13,4 +13,4 @@ release
 .env
 
 # misc
-.DS_Store
+.DS_Storedebug.log
