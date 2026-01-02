@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
+import { CONFIG } from './config';
 
 type SelectionState = {
   highlightIndex: number;
@@ -28,21 +29,13 @@ const HIGHLIGHT_KEY_ATTRIBUTES = [
   'data-uid',
 ];
 
-// ============ 用户可配置项 ============
-const CONFIG = {
-  // 评论列表和详情页的字体大小 (px)
-  commentFontSize: '20px',
-  // 评论区行高
-  commentLineHeight: '1.6',
-};
-
 const state: SelectionState = {
   highlightIndex: 0,
   commentIndex: 0,
   replyIndex: 0,
   inkEnabled: true,
   compactEnabled: false,
-  compactPadding: 5,
+  compactPadding: CONFIG.UI.COMPACT_PADDING,
   selectedHighlight: null,
   selectedHighlightGroup: null,
   selectedComment: null,
@@ -99,6 +92,20 @@ function injectStyles() {
 .${CLASS_INK} img, .${CLASS_INK} canvas, .${CLASS_INK} video { filter: grayscale(1) contrast(1.05); }
 .${CLASS_INK} .wr_highlight_bg { background: rgba(0, 0, 0, 0.12) !important; }
 .${CLASS_SELECTED} { outline: 2px solid #111 !important; outline-offset: 2px; }
+
+/* 正文内容的字体大小 */
+/* 正文内容的字体大小 - 排除评论相关元素 */
+.readerChapterContent, 
+.readerChapterContent_container,
+.readerChapterContent p:not([class*="review"]),
+.readerChapterContent span:not([class*="review"]),
+.readerChapterContent div:not([class*="review"]),
+.preRenderContent p:not([class*="review"]),
+.preRenderContent span:not([class*="review"]),
+.preRenderContent div:not([class*="review"]) {
+  font-size: ${CONFIG.UI.CONTENT_FONT_SIZE} !important;
+  line-height: ${CONFIG.UI.CONTENT_LINE_HEIGHT} !important;
+}
 
 /* 紧凑阅读模式 - 浏览器验证优化的 CSS */
 :root {
@@ -170,8 +177,8 @@ function injectStyles() {
 /* 2. 恢复顶部边距 15px，保持底部 10px */
 /* Top: 15px, Bottom: 10px */
 .${CLASS_COMPACT} .readerChapterContent {
-  font-size: 14px !important;
-  line-height: 1.35 !important;
+  font-size: ${CONFIG.UI.CONTENT_FONT_SIZE} !important;
+  line-height: ${CONFIG.UI.CONTENT_LINE_HEIGHT} !important;
   height: calc(100vh - 25px) !important;
   margin-top: 15px !important;
   padding: 0 !important;
@@ -206,12 +213,15 @@ function injectStyles() {
 [class*="reviewDetail"] .text,
 [class*="reviewDetail"] .item,
 [class*="reviewDetail"] p,
+[class*="reviewDetail"] span,
+[class*="reviewDetail"] div,
 [class*="reviews_panel"] .reader_float_reviews_panel_item_content,
 [class*="reviews_panel"] .reader_float_reviews_panel_item_content *,
 [class*="reviews_panel"] .content,
+[class*="reviews_panel"] *,
 [class*="item_content"] {
-  font-size: 20px !important;
-  line-height: 1.6 !important;
+  font-size: ${CONFIG.UI.COMMENT_FONT_SIZE} !important;
+  line-height: ${CONFIG.UI.COMMENT_LINE_HEIGHT} !important;
 }
 `;
   document.head.appendChild(style);
@@ -318,13 +328,13 @@ function forceFontSize() {
   selectors.forEach(sel => {
     document.querySelectorAll(sel).forEach(el => {
       const htmlEl = el as HTMLElement;
-      htmlEl.style.setProperty('font-size', CONFIG.commentFontSize, 'important');
-      htmlEl.style.setProperty('line-height', CONFIG.commentLineHeight, 'important');
+      htmlEl.style.setProperty('font-size', CONFIG.UI.COMMENT_FONT_SIZE, 'important');
+      htmlEl.style.setProperty('line-height', CONFIG.UI.COMMENT_LINE_HEIGHT, 'important');
       // 递归应用到所有子元素
       el.querySelectorAll('*').forEach(child => {
         const childHtml = child as HTMLElement;
-        childHtml.style.setProperty('font-size', CONFIG.commentFontSize, 'important');
-        childHtml.style.setProperty('line-height', CONFIG.commentLineHeight, 'important');
+        childHtml.style.setProperty('font-size', CONFIG.UI.COMMENT_FONT_SIZE, 'important');
+        childHtml.style.setProperty('line-height', CONFIG.UI.COMMENT_LINE_HEIGHT, 'important');
       });
     });
   });
@@ -352,13 +362,15 @@ const panelObserver = new MutationObserver((mutations) => {
 
 // Global Keydown Handler (使用 Capture 捕获阶段，防止页面阻止 ESC)
 function handleKeydown(event: KeyboardEvent) {
-  if (!event.altKey && !event.ctrlKey && !event.metaKey && event.code !== 'Escape' && !event.code.startsWith('Arrow') && event.code !== 'Enter') return;
+  // Allow basic navigation and shortcuts
+  const code = event.code;
+  const isShortcut = Object.values(CONFIG.SHORTCUTS).flat().includes(code);
+
+  if (!event.altKey && !event.ctrlKey && !event.metaKey && !isShortcut) return;
   if (isEditableTarget(event.target)) return;
 
-  const code = event.code;
-
   // 仅在关键按键时打印日志，避免刷屏
-  if (code === 'Escape' || code === 'KeyD') {
+  if (CONFIG.SHORTCUTS.BACK.includes(code) || CONFIG.SHORTCUTS.TOGGLE_COMPACT.includes(code)) {
     log('handleKeydown (capture):', code);
   }
 
@@ -368,124 +380,88 @@ function handleKeydown(event: KeyboardEvent) {
 
   // 快捷键处理
   let handled = true;
-  switch (code) {
-    case 'ArrowUp':
-    case 'ArrowDown':
-    case 'ArrowLeft':
-    case 'ArrowRight':
-      // 保留原有逻辑，为了简洁略过日志
-      if (detailOpen) {
-        if (code === 'ArrowUp') selectReply(-1);
-        if (code === 'ArrowDown') selectReply(1);
-        if (code === 'ArrowLeft') selectReply(-1);
-        if (code === 'ArrowRight') selectReply(1);
-      } else if (mainOpen) {
-        if (code === 'ArrowUp') selectComment(-1);
-        if (code === 'ArrowDown') selectComment(1);
+
+  if (CONFIG.SHORTCUTS.PREV.includes(code)) {
+    // ArrowUp / ArrowLeft
+    const delta = -1;
+    if (detailOpen) selectReply(delta);
+    else if (mainOpen) selectComment(delta);
+    else selectHighlight(delta);
+  } else if (CONFIG.SHORTCUTS.NEXT.includes(code)) {
+    // ArrowDown / ArrowRight
+    const delta = 1;
+    if (detailOpen) selectReply(delta);
+    else if (mainOpen) selectComment(delta);
+    else selectHighlight(delta);
+  } else if (CONFIG.SHORTCUTS.CONFIRM.includes(code)) {
+    if (mainOpen && state.selectedComment) {
+      clickSelectedComment();
+    } else {
+      clickSelectedHighlight();
+    }
+  } else if (CONFIG.SHORTCUTS.SCROLL.includes(code)) {
+    scrollPanelOnePage();
+  } else if (CONFIG.SHORTCUTS.BACK.includes(code)) {
+    log('  -> handleEscape start');
+    if (detailOpen) {
+      log('    Handling BACK in Detail Panel');
+      // 找到所有返回按钮，选择 x 坐标在 400-450 范围内的那个（列表面板的返回按钮）
+      const allBackBtns = document.querySelectorAll<HTMLElement>('.reader_float_panel_header_backBtn');
+      log('    Total back buttons found:', allBackBtns.length);
+
+      let targetBtn: HTMLElement | null = null;
+      let minX = Infinity;
+
+      // 找到 x 坐标最小但大于 0 的按钮（最左边的可见按钮）
+      allBackBtns.forEach((btn, i) => {
+        const rect = btn.getBoundingClientRect();
+        if (rect.left > 0 && rect.left < minX) {
+          minX = rect.left;
+          targetBtn = btn;
+        }
+      });
+
+      if (targetBtn) {
+        nativeClick(targetBtn as HTMLElement);
       } else {
-        if (code === 'ArrowUp') selectHighlight(-1);
-        if (code === 'ArrowDown') selectHighlight(1);
+        const closeBtn = document.querySelector<HTMLElement>(
+          '.comment_detail_float_panel_reviewDetail .reader_float_panel_header_closeBtn'
+        );
+        if (closeBtn) simulateClick(closeBtn);
       }
-      break;
-    case 'Enter':
-    case 'NumpadEnter':
-      if (mainOpen && state.selectedComment) {
-        clickSelectedComment();
-      } else {
-        clickSelectedHighlight();
-      }
-      break;
-    case 'KeyZ':
-      scrollPanelOnePage();
-      break;
-    case 'Escape':
-      log('  -> handleEscape start');
-      if (detailOpen) {
-        log('    Handling ESC in Detail Panel');
-        // 找到所有返回按钮，选择 x 坐标在 400-450 范围内的那个（列表面板的返回按钮）
-        // 根据用户反馈：应该点击"书友想法"左边的箭头
-        const allBackBtns = document.querySelectorAll<HTMLElement>('.reader_float_panel_header_backBtn');
-        log('    Total back buttons found:', allBackBtns.length);
+    } else if (mainOpen) {
+      log('    Closing Main Panel (List)');
+      const selector = '.reviews_panel, [class*="float_panel"][class*="review"]';
+      const panel = getVisiblePanel(selector);
 
-        let targetBtn: HTMLElement | null = null;
-        let minX = Infinity;
-
-        // 找到 x 坐标最小但大于 0 的按钮（最左边的可见按钮）
-        allBackBtns.forEach((btn, i) => {
-          const rect = btn.getBoundingClientRect();
-          log(`    BackBtn[${i}] left:${rect.left} top:${rect.top}`);
-          if (rect.left > 0 && rect.left < minX) {
-            minX = rect.left;
-            targetBtn = btn;
-          }
-        });
-
-        if (targetBtn) {
-          const rect = (targetBtn as HTMLElement).getBoundingClientRect();
-          log('    Selected leftmost visible Back Button:', JSON.stringify({ left: rect.left, top: rect.top }));
-          nativeClick(targetBtn as HTMLElement);
+      if (panel) {
+        const closeBtn = panel.querySelector<HTMLElement>('.reader_float_panel_header_closeBtn, [class*="close"], [class*="Close"]');
+        if (closeBtn) {
+          simulateClick(closeBtn);
         } else {
-          log('    No visible back button found, trying close button...');
-          const closeBtn = document.querySelector<HTMLElement>(
-            '.comment_detail_float_panel_reviewDetail .reader_float_panel_header_closeBtn'
-          );
-          if (closeBtn) simulateClick(closeBtn);
+          const buttons = panel.querySelectorAll('.reader_float_panel_header_closeBtn, .icon_close, [class*="close"]');
+          if (buttons.length > 0) simulateClick(buttons[0] as HTMLElement);
         }
-      } else if (mainOpen) {
-        log('    Closing Main Panel (List)');
-        // 使用正确的选择器查找主面板
-        const selector = '.reviews_panel, [class*="float_panel"][class*="review"]';
-        const panel = getVisiblePanel(selector);
-
-        if (panel) {
-          log('    Found Main Panel:', panel.className);
-          const closeBtn = panel.querySelector<HTMLElement>('.reader_float_panel_header_closeBtn, [class*="close"], [class*="Close"]');
-          log('    Main Close Button found:', !!closeBtn);
-
-          if (closeBtn) {
-            simulateClick(closeBtn);
-          } else {
-            log('    WARNING: Main Panel found but NO close button detected inside it.');
-            // 尝试 fallback: 查找 panel 内所有按钮
-            const buttons = panel.querySelectorAll('.reader_float_panel_header_closeBtn, .icon_close, [class*="close"]');
-            if (buttons.length > 0) {
-              simulateClick(buttons[0] as HTMLElement);
-            }
-          }
-        } else {
-          log('    ERROR: mainOpen is true but Could NOT find panel with selector:', selector);
-        }
-      }
-      break;
-    default: {
-      if (code === 'KeyC') {
-        clickCopyButton();
-      } else if (code === 'KeyX') {
-        if (detailOpen && state.selectedReply) {
-          log('  -> copySelectedReply()');
-          copySelectedReply();
-        } else if (mainOpen) {
-          log('  -> copySelectedComment()');
-          copySelectedComment();
-        }
-      } else if (code === 'KeyE') {
-        log('  -> setInkMode(!state.inkEnabled)');
-        setInkMode(!state.inkEnabled);
-      } else if (code === 'KeyD') {
-        log('  -> setCompactMode(!state.compactEnabled)');
-        setCompactMode(!state.compactEnabled);
-      } else if (code === 'BracketLeft') {
-        // Alt+[ 减少边距
-        log('  -> adjustCompactPadding(-5)');
-        adjustCompactPadding(-5);
-      } else if (code === 'BracketRight') {
-        // Alt+] 增加边距
-        log('  -> adjustCompactPadding(+5)');
-        adjustCompactPadding(5);
-      } else {
-        handled = false;
       }
     }
+  } else if (CONFIG.SHORTCUTS.COPY_HIGHLIGHT.includes(code)) {
+    clickCopyButton();
+  } else if (CONFIG.SHORTCUTS.COPY_TEXT.includes(code)) {
+    if (detailOpen && state.selectedReply) {
+      copySelectedReply();
+    } else if (mainOpen) {
+      copySelectedComment();
+    }
+  } else if (CONFIG.SHORTCUTS.TOGGLE_INK.includes(code)) {
+    setInkMode(!state.inkEnabled);
+  } else if (CONFIG.SHORTCUTS.TOGGLE_COMPACT.includes(code)) {
+    setCompactMode(!state.compactEnabled);
+  } else if (CONFIG.SHORTCUTS.DECREASE_PADDING.includes(code)) {
+    adjustCompactPadding(-5);
+  } else if (CONFIG.SHORTCUTS.INCREASE_PADDING.includes(code)) {
+    adjustCompactPadding(5);
+  } else {
+    handled = false;
   }
 
   if (handled) {
@@ -512,6 +488,38 @@ function isVisibleElement(el: Element | null): el is HTMLElement {
   }
   const rect = el.getBoundingClientRect();
   return rect.width > 0 && rect.height > 0;
+}
+
+/**
+ * 检测元素是否在其滚动容器的可视区域内（用户能看到的区域）
+ */
+function isElementInViewport(el: HTMLElement): boolean {
+  const rect = el.getBoundingClientRect();
+  // 元素自身必须有尺寸
+  if (rect.width === 0 || rect.height === 0) return false;
+
+  // 查找最近的滚动容器
+  let scrollContainer: HTMLElement | null = el.parentElement;
+  while (scrollContainer) {
+    const style = window.getComputedStyle(scrollContainer);
+    if (style.overflow === 'auto' || style.overflow === 'scroll' ||
+      style.overflowY === 'auto' || style.overflowY === 'scroll') {
+      break;
+    }
+    scrollContainer = scrollContainer.parentElement;
+  }
+
+  if (scrollContainer) {
+    const containerRect = scrollContainer.getBoundingClientRect();
+    // 检查元素是否在容器可视区域内（元素的顶部或底部需要在容器范围内）
+    const isAboveContainer = rect.bottom < containerRect.top;
+    const isBelowContainer = rect.top > containerRect.bottom;
+    if (isAboveContainer || isBelowContainer) return false;
+  }
+
+  // 同时检查视口范围
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  return rect.top < viewportHeight && rect.bottom > 0;
 }
 
 function getVisiblePanel(selector: string): HTMLElement | null {
@@ -889,8 +897,28 @@ function selectComment(delta: number) {
   if (!isMainPanelOpen()) return;
   const list = getCommentItems();
   if (!list.length) return;
-  const currentIndex = resolveIndex(list, state.selectedComment, state.commentIndex);
-  const nextIndex = wrapIndex(currentIndex + delta, list.length);
+
+  // 如果当前没有选中项，或选中项不在可见区域内，按向下键选中可见的第一个，按向上键选中可见的最后一个
+  let nextIndex: number;
+  const hasValidSelection = state.selectedComment &&
+    list.includes(state.selectedComment) &&
+    isElementInViewport(state.selectedComment);
+
+  if (!hasValidSelection) {
+    // 找到可见区域内的项目
+    const visibleItems = list.filter(isElementInViewport);
+    if (visibleItems.length > 0) {
+      const targetItem = delta > 0 ? visibleItems[0] : visibleItems[visibleItems.length - 1];
+      nextIndex = list.indexOf(targetItem);
+    } else {
+      // 没有可见项，选择列表的第一个或最后一个
+      nextIndex = delta > 0 ? 0 : list.length - 1;
+    }
+  } else {
+    const currentIndex = list.indexOf(state.selectedComment!);
+    nextIndex = wrapIndex(currentIndex + delta, list.length);
+  }
+
   state.commentIndex = nextIndex;
   const el = list[nextIndex];
   setSelected(el, state.selectedComment);
@@ -955,8 +983,28 @@ function getReplyItems(): HTMLElement[] {
 function selectReply(delta: number) {
   const list = getReplyItems();
   if (!list.length) return;
-  const currentIndex = resolveIndex(list, state.selectedReply, state.replyIndex);
-  const nextIndex = wrapIndex(currentIndex + delta, list.length);
+
+  // 如果当前没有选中项，或选中项不在可见区域内，按向下键选中可见的第一个，按向上键选中可见的最后一个
+  let nextIndex: number;
+  const hasValidSelection = state.selectedReply &&
+    list.includes(state.selectedReply) &&
+    isElementInViewport(state.selectedReply);
+
+  if (!hasValidSelection) {
+    // 找到可见区域内的项目
+    const visibleItems = list.filter(isElementInViewport);
+    if (visibleItems.length > 0) {
+      const targetItem = delta > 0 ? visibleItems[0] : visibleItems[visibleItems.length - 1];
+      nextIndex = list.indexOf(targetItem);
+    } else {
+      // 没有可见项，选择列表的第一个或最后一个
+      nextIndex = delta > 0 ? 0 : list.length - 1;
+    }
+  } else {
+    const currentIndex = list.indexOf(state.selectedReply!);
+    nextIndex = wrapIndex(currentIndex + delta, list.length);
+  }
+
   state.replyIndex = nextIndex;
   const el = list[nextIndex];
   setSelected(el, state.selectedReply);

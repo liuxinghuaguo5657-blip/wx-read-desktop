@@ -3,6 +3,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { app, BrowserWindow, BrowserView, clipboard, ipcMain } from 'electron';
 
+import { CONFIG } from './config';
+
 dotenv.config();
 
 const logFilePath = path.join(__dirname, '..', 'debug.log');
@@ -33,8 +35,8 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     title: `wx-read-desktop ${process.env.npm_package_version}`,
 
-    height: 800,
-    width: 1280,
+    height: CONFIG.WINDOW.HEIGHT,
+    width: CONFIG.WINDOW.WIDTH,
 
     autoHideMenuBar: process.env.NODE_ENV === 'dev' ? false : true,
 
@@ -45,7 +47,7 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.loadURL('https://weread.qq.com/');
+  mainWindow.loadURL(CONFIG.WINDOW.INITIAL_URL);
 
   // Open the DevTools.
   process.env.NODE_ENV === 'dev' && mainWindow.webContents.openDevTools();
