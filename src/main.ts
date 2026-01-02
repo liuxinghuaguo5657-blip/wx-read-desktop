@@ -37,6 +37,7 @@ const createWindow = () => {
 
     height: CONFIG.WINDOW.HEIGHT,
     width: CONFIG.WINDOW.WIDTH,
+    fullscreen: true,
 
     autoHideMenuBar: process.env.NODE_ENV === 'dev' ? false : true,
 

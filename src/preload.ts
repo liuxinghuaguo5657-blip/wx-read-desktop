@@ -34,7 +34,7 @@ const state: SelectionState = {
   commentIndex: 0,
   replyIndex: 0,
   inkEnabled: true,
-  compactEnabled: false,
+  compactEnabled: true,
   compactPadding: CONFIG.UI.COMPACT_PADDING,
   selectedHighlight: null,
   selectedHighlightGroup: null,
@@ -60,6 +60,7 @@ const onReady = () => {
   log('URL:', window.location.href);
   injectStyles();
   setInkMode(true);
+  setCompactMode(true);
   // 使用 Capture 阶段确保能监听到 ESC
   document.addEventListener('keydown', handleKeydown, true);
   log('Keydown listener registered (capture phase)');
@@ -91,7 +92,7 @@ function injectStyles() {
 .${CLASS_INK}, .${CLASS_INK} body { background: #f7f7f7 !important; color: #111 !important; }
 .${CLASS_INK} img, .${CLASS_INK} canvas, .${CLASS_INK} video { filter: grayscale(1) contrast(1.05); }
 .${CLASS_INK} .wr_highlight_bg { background: rgba(0, 0, 0, 0.12) !important; }
-.${CLASS_SELECTED} { outline: 2px solid #111 !important; outline-offset: 2px; }
+.${CLASS_SELECTED} { outline: ${CONFIG.UI.SELECTED_BORDER_WIDTH} solid #111 !important; outline-offset: 2px; }
 
 /* 正文内容的字体大小 */
 /* 正文内容的字体大小 - 排除评论相关元素 */
@@ -207,6 +208,78 @@ function injectStyles() {
   background-color: #ffffff !important;
 }
 
+/* 评论面板宽度设置 */
+[class*="reviewDetail"],
+[class*="reviews_panel"],
+.reader_float_panel_reviewDetail,
+.comment_detail_float_panel_reviewDetail {
+  width: ${CONFIG.UI.COMMENT_PANEL_WIDTH} !important;
+  min-width: ${CONFIG.UI.COMMENT_PANEL_WIDTH} !important;
+}
+
+/* 主面板内部容器 - 移除固定宽度限制 */
+.reader_float_panel_reviewDetail_header,
+.reader_float_panel_reviewDetail_scroll_area,
+.reader_float_panel_reviewDetail_comment_list,
+.reader_float_panel_reviewDetail_comment_list_item,
+.reader_float_panel_reviewDetail_comment_list_item_main,
+.reader_float_panel_reviewDetail_comment_list_item_right_container,
+.reader_float_panel_reviewDetail_content,
+.reader_float_panel_reviewDetail_content_wrapper,
+.reader_float_panel_reviewDetail_operator {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 子面板（评论详情/回复列表）内部容器 */
+.comment_detail_float_panel_reviewDetail_header,
+.comment_detail_float_panel_reviewDetail_scroll_area,
+.comment_detail_float_panel_reviewDetail_comment_list,
+.comment_detail_float_panel_reviewDetail_comment_list_item,
+.comment_detail_float_panel_reviewDetail_comment_list_item_main,
+.comment_detail_float_panel_reviewDetail_comment_list_item_right_container,
+.comment_detail_float_panel_reviewDetail_content,
+.comment_detail_float_panel_reviewDetail_content_wrapper,
+.comment_detail_float_panel_reviewDetail_operator {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 回复内容区域 - 确保文本自适应 */
+[class*="reviewDetail"] [class*="_main"],
+[class*="reviewDetail"] [class*="_right_container"],
+[class*="reviewDetail"] [class*="_content"] {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: auto !important;
+}
+
+/* 所有评论面板内部的 div 和 section - 确保填满宽度 */
+[class*="reviewDetail"] > div,
+[class*="reviewDetail"] section,
+[class*="reviews_panel"] > div,
+[class*="reviews_panel"] section,
+.reader_float_panel_reviewDetail > div,
+.comment_detail_float_panel_reviewDetail > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 头像保持固定宽度 */
+[class*="reviewDetail"] [class*="avatar"],
+[class*="reviewDetail"] [class*="Avatar"],
+[class*="reviews_panel"] [class*="avatar"],
+[class*="reviews_panel"] [class*="Avatar"] {
+  width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
+  flex-shrink: 0 !important;
+}
+
 /* 评论列表和详情页大字体优化 */
 [class*="reviewDetail"] .content,
 [class*="reviewDetail"] .content *,
@@ -315,17 +388,19 @@ async function nativeClick(element: HTMLElement) {
 }
 
 /**
- * 强制应用字体样式到评论面板 (使用 CONFIG 配置)
+ * 强制应用字体样式和宽度到评论面板 (使用 CONFIG 配置)
  */
-function forceFontSize() {
-  const selectors = [
+function forcePanelStyles() {
+  // 字体样式选择器
+  const fontSelectors = [
     '.reader_float_reviews_panel_item_content',
     '.reader_float_panel_reviewDetail_content',
     '.ck-content', // CKEditor content
     '[class*="reviewDetail"] [class*="content"]',
   ];
 
-  selectors.forEach(sel => {
+  // 应用字体样式
+  fontSelectors.forEach(sel => {
     document.querySelectorAll(sel).forEach(el => {
       const htmlEl = el as HTMLElement;
       htmlEl.style.setProperty('font-size', CONFIG.UI.COMMENT_FONT_SIZE, 'important');
@@ -338,6 +413,71 @@ function forceFontSize() {
       });
     });
   });
+
+  // 宽度样式选择器 - 移除所有内部容器的 max-width 限制
+  const widthSelectors = [
+    // 内容区域
+    '[class*="reviewDetail"] [class*="content"]',
+    '[class*="reviewDetail"] [class*="wrapper"]',
+    '[class*="reviewDetail"] [class*="container"]',
+    '[class*="reviewDetail"] [class*="list"]',
+    '[class*="reviewDetail"] [class*="body"]',
+    '[class*="reviewDetail"] [class*="text"]',
+    '[class*="reviews_panel"] [class*="content"]',
+    '[class*="reviews_panel"] [class*="wrapper"]',
+    '[class*="reviews_panel"] [class*="list"]',
+    // 评论条目
+    '[class*="reviewDetail"] [class*="item"]',
+    '[class*="reviews_panel"] [class*="item"]',
+    // 回复区域
+    '[class*="reviewDetail"] [class*="reply"]',
+    '[class*="reviewDetail"] [class*="comment"]',
+    '[class*="reviewDetail"] [class*="sub_item"]',
+  ];
+
+  // 应用宽度样式
+  widthSelectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      const htmlEl = el as HTMLElement;
+      const className = htmlEl.className || '';
+
+      // 排除头像元素
+      if (className.includes('avatar') || className.includes('Avatar')) {
+        return;
+      }
+
+      // 移除 max-width 限制
+      htmlEl.style.setProperty('max-width', '100%', 'important');
+      htmlEl.style.setProperty('box-sizing', 'border-box', 'important');
+
+      // 对于内容容器，设置宽度为 100%
+      if (className.includes('content') || className.includes('wrapper') ||
+        className.includes('list') || className.includes('container') ||
+        className.includes('body') || className.includes('text')) {
+        htmlEl.style.setProperty('width', '100%', 'important');
+      }
+    });
+  });
+
+  // 特别处理：查找所有可能有固定宽度的元素并移除
+  document.querySelectorAll('[class*="reviewDetail"] *, [class*="reviews_panel"] *').forEach(el => {
+    const htmlEl = el as HTMLElement;
+    const className = htmlEl.className || '';
+
+    // 排除头像
+    if (className.includes('avatar') || className.includes('Avatar') || htmlEl.tagName === 'IMG') {
+      return;
+    }
+
+    // 检查计算后的样式
+    const computed = window.getComputedStyle(htmlEl);
+    const maxWidth = computed.maxWidth;
+
+    // 如果有固定的 max-width（不是 none 或 100%），则移除
+    if (maxWidth && maxWidth !== 'none' && !maxWidth.includes('%')) {
+      htmlEl.style.setProperty('max-width', '100%', 'important');
+    }
+  });
 }
 
 // 监听 DOM 变化，当评论面板出现时强制修改样式
@@ -348,11 +488,11 @@ const panelObserver = new MutationObserver((mutations) => {
         if (node instanceof HTMLElement) {
           // 检查是否是评论面板或其子元素
           if (node.className.includes('review') || node.className.includes('panel') || node.querySelector('[class*="review"]')) {
-            forceFontSize();
+            forcePanelStyles();
           }
           // 递归检查
           if (node.classList.contains('reader_float_reviews_panel_item_content') || node.classList.contains('reader_float_panel_reviewDetail_content')) {
-            forceFontSize();
+            forcePanelStyles();
           }
         }
       });
@@ -405,42 +545,96 @@ function handleKeydown(event: KeyboardEvent) {
     log('  -> handleEscape start');
     if (detailOpen) {
       log('    Handling BACK in Detail Panel');
-      // 找到所有返回按钮，选择 x 坐标在 400-450 范围内的那个（列表面板的返回按钮）
+
+      // 查找所有返回按钮，选择 x 坐标最小的可见按钮
       const allBackBtns = document.querySelectorAll<HTMLElement>('.reader_float_panel_header_backBtn');
       log('    Total back buttons found:', allBackBtns.length);
 
       let targetBtn: HTMLElement | null = null;
       let minX = Infinity;
+      let btnInfo: string[] = [];
 
-      // 找到 x 坐标最小但大于 0 的按钮（最左边的可见按钮）
       allBackBtns.forEach((btn, i) => {
         const rect = btn.getBoundingClientRect();
-        if (rect.left > 0 && rect.left < minX) {
+        const isVisible = btn.offsetWidth > 0 && btn.offsetHeight > 0;
+        btnInfo.push(`[${i}] x=${rect.left.toFixed(0)} visible=${isVisible}`);
+
+        // 只选择真正可见的按钮（offsetWidth > 0）
+        if (isVisible && rect.left > 0 && rect.left < minX) {
           minX = rect.left;
           targetBtn = btn;
         }
       });
 
+      log('    Buttons info:', btnInfo.join(', '));
+
       if (targetBtn) {
-        nativeClick(targetBtn as HTMLElement);
+        const btn = targetBtn as HTMLElement;
+        const rect = btn.getBoundingClientRect();
+        log('    Selected back button at x:', rect.left);
+
+        // 使用 dispatchEvent 触发点击事件
+        const clickEvent = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+          clientX: rect.left + rect.width / 2,
+          clientY: rect.top + rect.height / 2
+        });
+        btn.dispatchEvent(clickEvent);
+        log('    dispatchEvent click executed');
       } else {
+        log('    No back button found, trying close button');
         const closeBtn = document.querySelector<HTMLElement>(
           '.comment_detail_float_panel_reviewDetail .reader_float_panel_header_closeBtn'
         );
         if (closeBtn) simulateClick(closeBtn);
       }
     } else if (mainOpen) {
-      log('    Closing Main Panel (List)');
-      const selector = '.reviews_panel, [class*="float_panel"][class*="review"]';
-      const panel = getVisiblePanel(selector);
+      log('    Handling BACK in Main Panel');
 
-      if (panel) {
-        const closeBtn = panel.querySelector<HTMLElement>('.reader_float_panel_header_closeBtn, [class*="close"], [class*="Close"]');
-        if (closeBtn) {
-          simulateClick(closeBtn);
-        } else {
-          const buttons = panel.querySelectorAll('.reader_float_panel_header_closeBtn, .icon_close, [class*="close"]');
-          if (buttons.length > 0) simulateClick(buttons[0] as HTMLElement);
+      // 查找所有返回按钮，选择 x 坐标最小的可见按钮
+      const allBackBtns = document.querySelectorAll<HTMLElement>('.reader_float_panel_header_backBtn');
+      let backBtn: HTMLElement | null = null;
+      let minX = Infinity;
+
+      allBackBtns.forEach((btn) => {
+        const rect = btn.getBoundingClientRect();
+        const isVisible = btn.offsetWidth > 0 && btn.offsetHeight > 0;
+        if (isVisible && rect.left > 0 && rect.left < minX) {
+          minX = rect.left;
+          backBtn = btn;
+        }
+      });
+
+      if (backBtn) {
+        // 有返回按钮，点击返回到上一级
+        const btn = backBtn as HTMLElement;
+        const rect = btn.getBoundingClientRect();
+        log('    Found back button at x:', rect.left, 'clicking to go back');
+
+        const clickEvent = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+          clientX: rect.left + rect.width / 2,
+          clientY: rect.top + rect.height / 2
+        });
+        btn.dispatchEvent(clickEvent);
+      } else {
+        // 没有返回按钮，关闭整个面板
+        log('    No back button, closing Main Panel');
+        const selector = '.reviews_panel, [class*="float_panel"][class*="review"]';
+        const panel = getVisiblePanel(selector);
+
+        if (panel) {
+          const closeBtn = panel.querySelector<HTMLElement>('.reader_float_panel_header_closeBtn, [class*="close"], [class*="Close"]');
+          if (closeBtn) {
+            simulateClick(closeBtn);
+          } else {
+            const buttons = panel.querySelectorAll('.reader_float_panel_header_closeBtn, .icon_close, [class*="close"]');
+            if (buttons.length > 0) simulateClick(buttons[0] as HTMLElement);
+          }
         }
       }
     }
@@ -642,24 +836,23 @@ function canGroupByGeometry(
 ): boolean {
   const vGap = Math.abs(nextRect.top - lastRect.top);
 
-  // 同一行（垂直位置相近）应该合并
+  // 双页模式检测：如果两个元素分别在左页和右页，不合并
+  const pageWidth = window.innerWidth;
+  const midPoint = pageWidth / 2;
+  const lastOnLeft = lastRect.right < midPoint;
+  const nextOnLeft = nextRect.left < midPoint;
+  if (lastOnLeft !== nextOnLeft) {
+    return false;
+  }
+
+  // 同一行（垂直间距很小）应该合并
   if (vGap <= lineHeight * 0.5) return true;
 
-  // 相邻行（垂直间距在合理范围内）
-  if (vGap <= lineHeight * 2.0) {
-    // 检查水平是否有重叠或连续
-    const overlap = Math.max(
-      0,
-      Math.min(nextRect.right, lastRect.right) - Math.max(nextRect.left, lastRect.left),
-    );
-    const minWidth = Math.min(nextRect.width, lastRect.width);
-    if (minWidth > 0 && overlap / minWidth >= 0.1) return true;
-
-    const hGap =
-      nextRect.left > lastRect.right
-        ? nextRect.left - lastRect.right
-        : lastRect.left - nextRect.right;
-    return hGap <= lineHeight * 2.0;
+  // 相邻行（垂直间距在 1.8 倍行高以内）
+  // 关键：在同一页面内，只要是相邻行且样式相同，就直接合并
+  // 不检查水平位置，因为换行时 X 坐标会有大跳跃
+  if (vGap > lineHeight * 0.5 && vGap <= lineHeight * 1.8) {
+    return true;
   }
 
   return false;
@@ -672,8 +865,17 @@ function getHighlightGroups(): HTMLElement[][] {
   const keyed = new Map<string, HTMLElement[]>();
   const unkeyed: HTMLElement[] = [];
 
+  // 调试：收集划线信息
+  const debugInfo: string[] = [];
+  debugInfo.push(`Total highlights: ${highlights.length}`);
+
   for (const el of highlights) {
     const key = getHighlightGroupKey(el);
+    const rect = el.getBoundingClientRect();
+    const color = getHighlightColorKey(el);
+    const text = el.textContent?.substring(0, 20) || '';
+    debugInfo.push(`  [${key || 'no-key'}] "${text}..." x=${rect.left.toFixed(0)} y=${rect.top.toFixed(0)} w=${rect.width.toFixed(0)} color=${color}`);
+
     if (key) {
       const existing = keyed.get(key);
       if (existing) {
@@ -686,6 +888,8 @@ function getHighlightGroups(): HTMLElement[][] {
     }
   }
 
+  debugInfo.push(`Keyed groups: ${keyed.size}, Unkeyed: ${unkeyed.length}`);
+
   const groups: HTMLElement[][] = [];
   Array.from(keyed.values()).forEach((items) => groups.push(items));
 
@@ -695,6 +899,7 @@ function getHighlightGroups(): HTMLElement[][] {
       // 双屏阅读：先按 left 排序（左页优先），再按 top 排序
       .sort((a, b) => a.rect.left - b.rect.left || a.rect.top - b.rect.top);
     const lineHeight = getMedianHeight(entries.map((entry) => entry.rect)) || 24;
+    debugInfo.push(`Unkeyed lineHeight: ${lineHeight.toFixed(0)}`);
 
     const clustered: { items: HTMLElement[]; lastRect: DOMRect; color: string }[] = [];
     for (const entry of entries) {
@@ -726,7 +931,7 @@ function getHighlightGroups(): HTMLElement[][] {
   // 双屏阅读：按页面位置分组，先左页（left 小）后右页
   // 同一页内按 top 排序
   const pageWidth = window.innerWidth / 2;
-  return groups.sort((a, b) => {
+  const sortedGroups = groups.sort((a, b) => {
     const rectA = a[0].getBoundingClientRect();
     const rectB = b[0].getBoundingClientRect();
     const pageA = rectA.left < pageWidth ? 0 : 1;
@@ -734,6 +939,18 @@ function getHighlightGroups(): HTMLElement[][] {
     if (pageA !== pageB) return pageA - pageB;
     return rectA.top - rectB.top || rectA.left - rectB.left;
   });
+
+  // 输出分组结果
+  debugInfo.push(`Final groups: ${sortedGroups.length}`);
+  sortedGroups.forEach((group, i) => {
+    const texts = group.map(el => el.textContent?.substring(0, 10) || '').join(' | ');
+    const rect = group[0].getBoundingClientRect();
+    debugInfo.push(`  Group ${i}: ${group.length} items, y=${rect.top.toFixed(0)}, "${texts}..."`);
+  });
+
+  log('getHighlightGroups:\n' + debugInfo.join('\n'));
+
+  return sortedGroups;
 }
 
 function resolveGroupIndex(
