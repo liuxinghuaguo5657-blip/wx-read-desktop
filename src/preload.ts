@@ -56,23 +56,29 @@ function log(...args: unknown[]) {
 }
 
 const onReady = () => {
-  log('onReady called, document.readyState:', document.readyState);
-  log('URL:', window.location.href);
+  // log('onReady called, document.readyState:', document.readyState);
+  // log('URL:', window.location.href);
   injectStyles();
   setInkMode(true);
   setCompactMode(true);
   // 使用 Capture 阶段确保能监听到 ESC
   document.addEventListener('keydown', handleKeydown, true);
-  log('Keydown listener registered (capture phase)');
+  // log('Keydown listener registered (capture phase)');
 
   // 启动面板观察器
   panelObserver.observe(document.body, { childList: true, subtree: true });
 
+  // 确保位置观察器已连接 - 周期性检查以防错过懒加载
+  setInterval(ensurePositionObserver, 2000);
+  // 立即尝试一次
+  ensurePositionObserver();
+
   // 延迟记录页面结构
   setTimeout(() => {
-    log('Delayed page structure check:');
-    log('  - Highlights:', document.querySelectorAll('.wr_underline_wrapper').length);
-    log('  - All classes with "review":', Array.from(document.querySelectorAll('[class*="review"]')).map(el => el.className.split(' ').slice(0, 3).join(' ')).slice(0, 10));
+    //   log('Delayed page structure check:');
+    //   log('  - Highlights:', document.querySelectorAll('.wr_underline_wrapper').length);
+    //   log('  - Panel Wrapper found:', !!document.querySelector('.float_panel_position_wrapper'));
+    //   log('  - All classes with "review":', Array.from(document.querySelectorAll('[class*="review"]')).map(el => el.className.split(' ').slice(0, 3).join(' ')).slice(0, 10));
   }, 3000);
 };
 
@@ -80,6 +86,31 @@ if (document.readyState === 'loading') {
   window.addEventListener('DOMContentLoaded', onReady);
 } else {
   onReady();
+}
+
+let currentObservedPanel: Element | null = null;
+
+function ensurePositionObserver() {
+  const panel = document.querySelector('.float_panel_position_wrapper');
+
+  // 如果没有面板，或者面板与当前观察的相同，则忽略
+  if (!panel || panel === currentObservedPanel) return;
+
+  // 如果是新的面板元素（可能是页面重绘导致的替换）
+  // log('>>> ensurePositionObserver: Found new panel wrapper',
+  //   currentObservedPanel ? '(replaced old one)' : '(first time)');
+
+  // 断开旧的观察（虽然 MutationObserver.disconnect() 会断开所有，但这里我们只观察了一个）
+  // 实际上我们可能需要一个新的 observer 实例或者复用现有的
+  // 简单起见，我们直接观察新的，旧的如果不被引用会被回收
+  // 但为了避免内存泄漏和混乱，最好先 disconnect
+  positionObserver.disconnect();
+
+  positionObserver.observe(panel, { attributes: true, attributeFilter: ['style'] });
+  currentObservedPanel = panel;
+
+  // 立即尝试调整新面板的位置
+  adjustPanelPosition();
 }
 
 function injectStyles() {
@@ -208,28 +239,164 @@ function injectStyles() {
   background-color: #ffffff !important;
 }
 
-/* 评论面板宽度设置 */
-[class*="reviewDetail"],
-[class*="reviews_panel"],
-.reader_float_panel_reviewDetail,
-.comment_detail_float_panel_reviewDetail {
+/* 评论面板宽度设置 - 根容器控制 */
+/* [Fix] 核心逻辑：只给最外层容器设置配置宽度，内部元素全部填满 (100%) */
+.float_panel_position_wrapper {
   width: ${CONFIG.UI.COMMENT_PANEL_WIDTH} !important;
   min-width: ${CONFIG.UI.COMMENT_PANEL_WIDTH} !important;
+  max-width: ${CONFIG.UI.COMMENT_PANEL_WIDTH} !important;
+}
+
+/* 内部面板元素 - 强制填满父容器，防止递归缩小 */
+.reader_float_panel_reviewDetail,
+.comment_detail_float_panel_reviewDetail,
+.reader_float_reviews_panel,
+.reader_floatReviewsPanel,
+.reviews_panel,
+[class*="reviews_panel"] {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
 }
 
 /* 主面板内部容器 - 移除固定宽度限制 */
+/* 仅针对容器级元素设置 100%，避免破坏 flex 子元素布局 */
 .reader_float_panel_reviewDetail_header,
 .reader_float_panel_reviewDetail_scroll_area,
 .reader_float_panel_reviewDetail_comment_list,
 .reader_float_panel_reviewDetail_comment_list_item,
-.reader_float_panel_reviewDetail_comment_list_item_main,
-.reader_float_panel_reviewDetail_comment_list_item_right_container,
 .reader_float_panel_reviewDetail_content,
 .reader_float_panel_reviewDetail_content_wrapper,
 .reader_float_panel_reviewDetail_operator {
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
+}
+
+/* [优化] 针对 "热门想法" 列表项与其子元素的布局优化 */
+.reader_float_reviews_panel_item,
+.reader_floatReviewsPanel_list_item {
+  display: flex !important;
+  flex-direction: column !important; /* 它是上下结构：用户信息在头，内容在中间，赞在底 */
+  padding-right: 4px !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  /* border: 1px solid red !important; */
+}
+
+/* 顶部：头像和名字 */
+.reader_float_reviews_panel_item_top_container,
+.reader_float_reviews_panel_item_header {
+  padding-right: 0 !important;
+}
+
+/* 中间：内容区域 (关键: 减少右边距，去掉强制宽) */
+.reader_float_reviews_panel_item_content {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  /* width: 100% !important;  <-- Removed to match Detail Panel logic */
+}
+
+/* 列表项 - 设为相对定位作为基准 */
+.reader_float_reviews_panel_item {
+  position: relative !important;
+}
+
+/* 底部：点赞评论数 - 挪到右上角 */
+.reader_float_reviews_panel_item_bottom_container {
+  position: absolute !important;
+  top: 15px !important; /* 根据头像高度调整，大致在用户名水平线 */
+  right: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-end !important; /* 靠右对齐 */
+  padding-right: 0 !important;
+  min-height: 24px !important;
+  width: auto !important; /* 宽度自适应，不要占满整行 */
+  gap: 15px !important;
+}
+
+/* [Fix] 核心修复：强制子元素可见 (解决评论数消失问题) */
+.reader_float_reviews_panel_item_bottom_container > * {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 底部图标项容器 */
+.reader_float_reviews_panel_item_bottom_item {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  margin-right: 0 !important;
+  width: auto !important;
+  height: 24px !important;
+  visibility: visible !important; /* 自身可见 */
+  opacity: 1 !important;
+  min-width: 20px !important;
+}/* [Fix] 强制显示 SVG 图标 */
+.reader_float_reviews_panel_item_bottom_item svg,
+.reader_float_reviews_panel_item_bottom_item_icon {
+  display: block !important;
+  width: 16px !important;
+  height: 16px !important;
+  fill: #999 !important;
+  color: #999 !important;
+  min-width: 16px !important;
+}
+
+/* [Fix] 强制 SVG Path 颜色 */
+.reader_float_reviews_panel_item_bottom_item svg path,
+.reader_float_reviews_panel_item_bottom_item_icon path {
+  fill: #999 !important;
+  stroke: #999 !important; /* 尝试加上 stroke */
+}
+
+/* [Fix] 强制显示点赞/评论的具体数字 */
+.reader_float_reviews_panel_item_bottom_item_count,
+.reader_float_reviews_panel_item_bottom_item_comment_count,
+.reader_float_reviews_panel_item_bottom_item_like_count {
+  display: inline-block !important;
+  color: #666 !important;
+  font-size: 13px !important;
+  margin-left: 4px !important;
+  line-height: 1 !important;
+  width: auto !important;
+}
+
+/* 针对此前的 "Detail" 面板 (评论详情页) 保持原有优化 */
+.reader_float_panel_reviewDetail_comment_list_item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  padding-right: 2px !important;
+  margin-right: 0 !important;
+  /* border: 1px solid red !important; */
+}
+
+/* Detail 面板主内容 */
+.reader_float_panel_reviewDetail_comment_list_item_main {
+  flex: 1 1 auto !important;
+  margin-right: 4px !important;
+  /* border: 1px solid blue !important; */
+}
+
+/* 通用：隐藏滚动条 */
+.reader_float_panel_reviewDetail_scroll_area::-webkit-scrollbar,
+.comment_detail_float_panel_reviewDetail_scroll_area::-webkit-scrollbar,
+.reader_float_reviews_panel_content::-webkit-scrollbar { /* 猜测类名，覆盖更多滚动容器 */
+  display: none !important;
+  width: 0 !important;
+}
+
+/* 调整关闭按钮区域 */
+.reader_float_panel_reviewDetail_header_close,
+.reader_float_reviews_panel_header_close { /* 猜测是否有这个类 */
+  right: 5px !important;
+  top: 5px !important;
 }
 
 /* 子面板（评论详情/回复列表）内部容器 */
@@ -303,13 +470,13 @@ function injectStyles() {
 function setInkMode(enabled: boolean) {
   state.inkEnabled = enabled;
   document.documentElement.classList.toggle(CLASS_INK, enabled);
-  log('setInkMode:', enabled);
+  // log('setInkMode:', enabled);
 }
 
 function setCompactMode(enabled: boolean) {
   state.compactEnabled = enabled;
   document.documentElement.classList.toggle(CLASS_COMPACT, enabled);
-  log('setCompactMode:', enabled, 'p:', state.compactPadding);
+  // log('setCompactMode:', enabled, 'p:', state.compactPadding);
 
   if (enabled) {
     document.documentElement.style.setProperty('--wxrd-compact-padding', state.compactPadding + 'px');
@@ -319,7 +486,7 @@ function setCompactMode(enabled: boolean) {
   // 使用多次触发以确保在 Canvas 初始化后也能生效
   [10, 100, 300].forEach(delay => {
     setTimeout(() => {
-      log('Triggering window resize for layout update...', delay);
+      // log('Triggering window resize for layout update...', delay);
       window.dispatchEvent(new Event('resize'));
     }, delay);
   });
@@ -332,7 +499,7 @@ function adjustCompactPadding(delta: number) {
 
   state.compactPadding = newPadding;
   document.documentElement.style.setProperty('--wxrd-compact-padding', newPadding + 'px');
-  log('adjustCompactPadding:', newPadding + 'px');
+  // log('adjustCompactPadding:', newPadding + 'px');
 }
 
 // 模拟完整点击事件 (Vue/React 兼容版 - 使用 PointerEvent)
@@ -372,7 +539,7 @@ function simulateClick(element: HTMLElement) {
   element.dispatchEvent(new MouseEvent('mouseup', mouseOpts));
   element.dispatchEvent(new MouseEvent('click', mouseOpts));
 
-  log('    simulateClick executed on:', element.className);
+  // log('    simulateClick executed on:', element.className);
 }
 
 /**
@@ -383,7 +550,7 @@ async function nativeClick(element: HTMLElement) {
   const rect = element.getBoundingClientRect();
   const x = Math.round(rect.left + rect.width / 2);
   const y = Math.round(rect.top + rect.height / 2);
-  log('    nativeClick at:', x, y);
+  // log('    nativeClick at:', x, y);
   await ipcRenderer.invoke('wxrd-native-click', x, y);
 }
 
@@ -472,13 +639,154 @@ function forcePanelStyles() {
     // 检查计算后的样式
     const computed = window.getComputedStyle(htmlEl);
     const maxWidth = computed.maxWidth;
-
-    // 如果有固定的 max-width（不是 none 或 100%），则移除
-    if (maxWidth && maxWidth !== 'none' && !maxWidth.includes('%')) {
-      htmlEl.style.setProperty('max-width', '100%', 'important');
-    }
   });
 }
+
+// 记录最后一次点击的 X 坐标，用于判断高亮是在左侧还是右侧
+let lastClickX = 0;
+window.addEventListener('mousedown', (e) => {
+  lastClickX = e.clientX;
+}, true);
+
+/**
+ * 调整评论面板位置 - 反转原始逻辑,使面板显示在高亮同侧
+ */
+function adjustPanelPosition() {
+  if (!CONFIG.UI.PANEL_SAME_SIDE) return;
+
+  const panel = document.querySelector<HTMLElement>('.float_panel_position_wrapper');
+  if (!panel) return;
+
+  const inlineStyle = panel.getAttribute('style');
+  if (!inlineStyle) return;
+
+  // 提取当前的 left 或 right 值
+  let currentLeft: number;
+  let hasRight = false;
+
+  const leftMatch = inlineStyle.match(/left:\s*([\d.]+)px/);
+  const rightMatch = inlineStyle.match(/right:\s*([\d.]+)px/);
+
+  const viewportWidth = window.innerWidth;
+  const panelWidth = panel.offsetWidth || 500; // 默认500px
+
+  if (leftMatch) {
+    currentLeft = parseFloat(leftMatch[1]);
+  } else if (rightMatch) {
+    const rightVal = parseFloat(rightMatch[1]);
+    currentLeft = viewportWidth - rightVal - panelWidth;
+    hasRight = true;
+  } else {
+    return;
+  }
+
+  // 目标位置计算
+  // 策略优先级:
+  // 1. state.selectedHighlight (键盘操作/高亮导航) - 最准确
+  // 2. lastClickX (鼠标点击) - 备选
+  // 3. 原始位置反转 (最后手段)
+
+  const midPoint = viewportWidth / 2;
+  let finalLeft: number;
+  let targetSide: 'left' | 'right' | null = null;
+
+  // 1. 尝试使用当前选中的高亮元素
+  if (state.selectedHighlight) {
+    const rect = state.selectedHighlight.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      if (rect.left < midPoint) {
+        targetSide = 'left';
+      } else {
+        targetSide = 'right';
+      }
+      // log('adjustPanelPosition: Determined side via state.selectedHighlight:', targetSide, 'rect:', rect.left);
+    }
+  }
+
+  // 2. 如果没有高亮元素 (或无效)，尝试使用鼠标点击位置
+  if (!targetSide && lastClickX > 0) {
+    if (lastClickX < midPoint) {
+      targetSide = 'left';
+    } else {
+      targetSide = 'right';
+    }
+    // log('adjustPanelPosition: Determined side via lastClickX:', targetSide, 'x:', lastClickX);
+  }
+
+  // 3. 最终决策
+  if (targetSide === 'left') {
+    finalLeft = CONFIG.UI.LEFT_PANEL_X;
+  } else if (targetSide === 'right') {
+    // 处理右侧配置: 支持数字或百分比字符串
+    const rightConfig = CONFIG.UI.RIGHT_PANEL_X;
+    if (typeof rightConfig === 'string' && rightConfig.endsWith('%')) {
+      const percent = parseFloat(rightConfig) / 100;
+      finalLeft = viewportWidth * percent;
+    } else {
+      finalLeft = Number(rightConfig);
+    }
+  } else {
+    // 无法确定的情况，保持默认或者基于当前位置做一个保守估计
+    const rightConfig = CONFIG.UI.RIGHT_PANEL_X;
+    let rightPos: number;
+    if (typeof rightConfig === 'string' && rightConfig.endsWith('%')) {
+      rightPos = viewportWidth * (parseFloat(rightConfig) / 100);
+    } else {
+      rightPos = Number(rightConfig);
+    }
+
+    // 这里我们假设如果在左半边就去左边，右半边就去右边 (类似之前逻辑，作为兜底)
+    if (currentLeft > midPoint) {
+      finalLeft = CONFIG.UI.LEFT_PANEL_X; // 原本在右，移到左
+    } else {
+      finalLeft = rightPos; // 原本在左，移到右
+    }
+  }
+
+  // 如果当前位置已经是目标位置，则跳过
+  if (Math.abs(currentLeft - finalLeft) < 10) {
+    return;
+  }
+
+  // 防止重复设置 (Dataset 检查)
+  const lastHandledLeft = parseFloat(panel.dataset.wxrdLastLeft || 'NaN');
+  if (!isNaN(lastHandledLeft) && Math.abs(currentLeft - lastHandledLeft) < 1) {
+    return;
+  }
+
+  log('adjustPanelPosition: Positioning to', targetSide, 'finalLeft:', finalLeft);
+
+  // 更新位置 - 统一使用 left 定位，移除 right
+  let updatedStyle = inlineStyle;
+
+  if (hasRight) {
+    updatedStyle = updatedStyle.replace(/right:\s*[\d.]+px;?/, '');
+    if (!updatedStyle.includes('left:')) {
+      updatedStyle += ` left: ${finalLeft}px;`;
+    } else {
+      updatedStyle = updatedStyle.replace(/left:\s*[\d.]+px/, `left: ${finalLeft}px`);
+    }
+  } else {
+    updatedStyle = updatedStyle.replace(/left:\s*[\d.]+px/, `left: ${finalLeft}px`);
+  }
+
+  panel.setAttribute('style', updatedStyle);
+  panel.dataset.wxrdLastLeft = finalLeft.toString();
+}
+
+// 监听面板位置变化的观察器
+const positionObserver = new MutationObserver((mutations) => {
+  for (const mutation of mutations) {
+    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+      const target = mutation.target as HTMLElement;
+      if (target.classList.contains('float_panel_position_wrapper')) {
+        // log('>>> positionObserver detected style change on .float_panel_position_wrapper');
+        // 使用 setTimeout 确保在原始样式应用后再调整
+        setTimeout(() => adjustPanelPosition(), 0);
+      }
+    }
+  }
+});
 
 // 监听 DOM 变化，当评论面板出现时强制修改样式
 const panelObserver = new MutationObserver((mutations) => {
@@ -486,6 +794,64 @@ const panelObserver = new MutationObserver((mutations) => {
     if (mutation.type === 'childList') {
       mutation.addedNodes.forEach(node => {
         if (node instanceof HTMLElement) {
+          // [Debugging] 打印所有相关元素的类名结构，帮助找对选择器
+          if (node.className.includes('panel') || node.className.includes('review') || node.innerHTML.includes('review')) {
+            log('>>> Detected Potential Panel Node:', node.tagName, node.className);
+
+            // [DEBUG] 打印完整家谱 (Ancestry) - 帮助找到最外层容器
+            let parent = node.parentElement;
+            const ancestry: string[] = [];
+            while (parent && parent.tagName !== 'BODY') {
+              ancestry.push(`${parent.tagName}.${parent.className}`);
+              parent = parent.parentElement;
+            }
+            log('    Ancestry (Bottom-Up):', ancestry.join(' -> '));
+
+            // [DEBUG] 专门针对 Detail 面板宽度问题的诊断日志
+            if (node.className.includes('reviewDetail') || node.className.includes('comment_detail')) {
+              const computed = window.getComputedStyle(node);
+              const rect = node.getBoundingClientRect();
+              log('    [WIDTH DEBUG] Detail Panel Detected!');
+              log('      - ClassName:', node.className);
+              log('      - Configured Width:', CONFIG.UI.COMMENT_PANEL_WIDTH);
+              log('      - Style.width:', node.style.width);
+              log('      - Computed Width:', computed.width);
+              log('      - BoundingRect Width:', rect.width);
+              if (node.parentElement) {
+                const parentComputed = window.getComputedStyle(node.parentElement);
+                log('      - Parent:', node.parentElement.tagName, node.parentElement.className);
+                log('      - Parent Width:', parentComputed.width, 'OffsetWidth:', node.parentElement.offsetWidth);
+              }
+            }
+
+            // 打印前 3 层子元素的类名
+            const children = node.querySelectorAll('*');
+            const classes = Array.from(children).map(c => c.className).filter(c => c).slice(0, 20);
+            log('    Child classes (first 20):', classes.join(', '));
+
+
+            // NESTED_LOGIC_REMOVED
+            if (node.className.includes('reader_float_panel_reviewDetail_comment_list_item')) {
+              const sub = node.querySelector('.reader_float_panel_reviewDetail_comment_list_item_sub'); // 猜测这是回复容器
+              const main = node.querySelector('.reader_float_panel_reviewDetail_comment_list_item_main');
+
+              log('    [Detail Item Debug] Comment Item Detected!');
+              if (main) log('      Main Content:', (main as HTMLElement).innerText.substring(0, 50));
+
+              if (sub) {
+                log('      [REPLY FOUND] Sub/Reply Container exists!');
+                log('      Sub Content:', (sub as HTMLElement).innerText);
+                log('      Sub InnerHTML:', sub.innerHTML.substring(0, 200));
+                const subComputed = window.getComputedStyle(sub);
+                log('      Sub Visibility:', subComputed.display, subComputed.visibility, subComputed.opacity, subComputed.height);
+              } else {
+                log('      [NO REPLY] No ._sub container found in this item.');
+              }
+            }
+          } // End of debug block
+
+
+
           // 检查是否是评论面板或其子元素
           if (node.className.includes('review') || node.className.includes('panel') || node.querySelector('[class*="review"]')) {
             forcePanelStyles();
@@ -494,11 +860,21 @@ const panelObserver = new MutationObserver((mutations) => {
           if (node.classList.contains('reader_float_reviews_panel_item_content') || node.classList.contains('reader_float_panel_reviewDetail_content')) {
             forcePanelStyles();
           }
-        }
-      });
-    }
-  }
-});
+          // 检查是否是面板位置包装器
+          if (node.classList.contains('float_panel_position_wrapper')) {
+            // DOM 变更检测到了目标元素，立即触发检查
+            ensurePositionObserver();
+          }
+          // 递归查找面板位置包装器
+          const wrapper = node.querySelector('.float_panel_position_wrapper');
+          if (wrapper) {
+            ensurePositionObserver();
+          }
+        } // End if (HTMLElement)
+      }); // End forEach
+    } // End if (childList)
+  } // End for (mutations)
+}); // End MutationObserver
 
 // Global Keydown Handler (使用 Capture 捕获阶段，防止页面阻止 ESC)
 function handleKeydown(event: KeyboardEvent) {
@@ -511,7 +887,7 @@ function handleKeydown(event: KeyboardEvent) {
 
   // 仅在关键按键时打印日志，避免刷屏
   if (CONFIG.SHORTCUTS.BACK.includes(code) || CONFIG.SHORTCUTS.TOGGLE_COMPACT.includes(code)) {
-    log('handleKeydown (capture):', code);
+    // log('handleKeydown (capture):', code);
   }
 
   // 记录面板状态
@@ -542,13 +918,13 @@ function handleKeydown(event: KeyboardEvent) {
   } else if (CONFIG.SHORTCUTS.SCROLL.includes(code)) {
     scrollPanelOnePage();
   } else if (CONFIG.SHORTCUTS.BACK.includes(code)) {
-    log('  -> handleEscape start');
+    // log('  -> handleEscape start');
     if (detailOpen) {
-      log('    Handling BACK in Detail Panel');
+      // log('    Handling BACK in Detail Panel');
 
       // 查找所有返回按钮，选择 x 坐标最小的可见按钮
       const allBackBtns = document.querySelectorAll<HTMLElement>('.reader_float_panel_header_backBtn');
-      log('    Total back buttons found:', allBackBtns.length);
+      // log('    Total back buttons found:', allBackBtns.length);
 
       let targetBtn: HTMLElement | null = null;
       let minX = Infinity;
@@ -566,12 +942,12 @@ function handleKeydown(event: KeyboardEvent) {
         }
       });
 
-      log('    Buttons info:', btnInfo.join(', '));
+      // log('    Buttons info:', btnInfo.join(', '));
 
       if (targetBtn) {
         const btn = targetBtn as HTMLElement;
         const rect = btn.getBoundingClientRect();
-        log('    Selected back button at x:', rect.left);
+        // log('    Selected back button at x:', rect.left);
 
         // 使用 dispatchEvent 触发点击事件
         const clickEvent = new MouseEvent('click', {
@@ -582,16 +958,16 @@ function handleKeydown(event: KeyboardEvent) {
           clientY: rect.top + rect.height / 2
         });
         btn.dispatchEvent(clickEvent);
-        log('    dispatchEvent click executed');
+        // log('    dispatchEvent click executed');
       } else {
-        log('    No back button found, trying close button');
+        // log('    No back button found, trying close button');
         const closeBtn = document.querySelector<HTMLElement>(
           '.comment_detail_float_panel_reviewDetail .reader_float_panel_header_closeBtn'
         );
         if (closeBtn) simulateClick(closeBtn);
       }
     } else if (mainOpen) {
-      log('    Handling BACK in Main Panel');
+      // log('    Handling BACK in Main Panel');
 
       // 查找所有返回按钮，选择 x 坐标最小的可见按钮
       const allBackBtns = document.querySelectorAll<HTMLElement>('.reader_float_panel_header_backBtn');
@@ -611,7 +987,7 @@ function handleKeydown(event: KeyboardEvent) {
         // 有返回按钮，点击返回到上一级
         const btn = backBtn as HTMLElement;
         const rect = btn.getBoundingClientRect();
-        log('    Found back button at x:', rect.left, 'clicking to go back');
+        // log('    Found back button at x:', rect.left, 'clicking to go back');
 
         const clickEvent = new MouseEvent('click', {
           bubbles: true,
@@ -623,7 +999,7 @@ function handleKeydown(event: KeyboardEvent) {
         btn.dispatchEvent(clickEvent);
       } else {
         // 没有返回按钮，关闭整个面板
-        log('    No back button, closing Main Panel');
+        // log('    No back button, closing Main Panel');
         const selector = '.reviews_panel, [class*="float_panel"][class*="review"]';
         const panel = getVisiblePanel(selector);
 
@@ -726,7 +1102,7 @@ function getVisiblePanel(selector: string): HTMLElement | null {
 
 function isDetailPanelOpen(): boolean {
   const panel = getVisiblePanel('.comment_detail_float_panel_reviewDetail');
-  log('isDetailPanelOpen:', !!panel, panel);
+  // log('isDetailPanelOpen:', !!panel, panel);
   return Boolean(panel);
 }
 
@@ -741,11 +1117,11 @@ function isMainPanelOpen(): boolean {
   for (const sel of selectors) {
     const panel = getVisiblePanel(sel);
     if (panel) {
-      log('isMainPanelOpen: found with', sel, panel);
+      // log('isMainPanelOpen: found with', sel, panel);
       return true;
     }
   }
-  log('isMainPanelOpen: false');
+  // log('isMainPanelOpen: false');
   return false;
 }
 
@@ -948,7 +1324,7 @@ function getHighlightGroups(): HTMLElement[][] {
     debugInfo.push(`  Group ${i}: ${group.length} items, y=${rect.top.toFixed(0)}, "${texts}..."`);
   });
 
-  log('getHighlightGroups:\n' + debugInfo.join('\n'));
+  // log('getHighlightGroups:\n' + debugInfo.join('\n'));
 
   return sortedGroups;
 }
@@ -998,7 +1374,7 @@ function clickSelectedHighlight() {
 
 function clickSelectedComment() {
   if (!state.selectedComment) {
-    log('clickSelectedComment: no comment selected');
+    // log('clickSelectedComment: no comment selected');
     return;
   }
 
@@ -1008,7 +1384,7 @@ function clickSelectedComment() {
   ) as HTMLElement | null;
 
   const targetEl = contentEl || state.selectedComment;
-  log('clickSelectedComment: simulating click on', targetEl.className);
+  // log('clickSelectedComment: simulating click on', targetEl.className);
 
   // 模拟完整的鼠标点击事件序列
   const rect = targetEl.getBoundingClientRect();
@@ -1028,28 +1404,28 @@ function clickSelectedComment() {
   targetEl.dispatchEvent(new MouseEvent('click', eventInit));
   // 注意：不要再发送额外的 click 事件，否则会导致 Vue 渲染两次
 
-  log('clickSelectedComment: events dispatched');
+  // log('clickSelectedComment: events dispatched');
 }
 
 function clickCopyButton() {
   // 查找评论面板中的复制按钮
   const panel = getVisiblePanel('[class*="float_panel"][class*="review"]');
   if (!panel) {
-    log('clickCopyButton: no panel found');
+    // log('clickCopyButton: no panel found');
     return;
   }
 
   const copyBtn = panel.querySelector('[class*="toolbar_item_copy"]') as HTMLElement | null;
   if (copyBtn) {
-    log('clickCopyButton: clicking copy button');
+    // log('clickCopyButton: clicking copy button');
     copyBtn.dispatchEvent(
       new MouseEvent('click', { bubbles: true, cancelable: true, view: window }),
     );
   } else {
-    log('clickCopyButton: copy button not found');
+    // log('clickCopyButton: copy button not found');
     // 尝试列出工具栏项目便于调试
     const toolbarItems = panel.querySelectorAll('[class*="toolbar_item"]');
-    log('  Available toolbar items:', Array.from(toolbarItems).map(el => el.className).join(', '));
+    // log('  Available toolbar items:', Array.from(toolbarItems).map(el => el.className).join(', '));
   }
 }
 
@@ -1076,7 +1452,7 @@ function getCommentItems(): HTMLElement[] {
     '.readerFloatPanel_reviewDetail_comment_list_item',
   ];
 
-  log('getCommentItems: starting search');
+  // log('getCommentItems: starting search');
 
   for (const panelSel of panelSelectors) {
     const panel = getVisiblePanel(panelSel);
@@ -1094,12 +1470,11 @@ function getCommentItems(): HTMLElement[] {
         });
       }
     });
-    log('  Panel found with', panelSel, 'className:', panel.className);
-    log('  Relevant classes in panel:', Array.from(classNames).slice(0, 30).join(', '));
+    // log('  Panel found with', panelSel, 'className:', panel.className);
+    // log('  Relevant classes in panel:', Array.from(classNames).slice(0, 30).join(', '));
 
     for (const itemSel of itemSelectors) {
       const items = Array.from(panel.querySelectorAll(itemSel)).filter(isVisibleElement);
-      log('    Trying', itemSel, '- found:', items.length);
       if (items.length) {
         log('  SUCCESS: Found', items.length, 'items with', itemSel);
         return items;
